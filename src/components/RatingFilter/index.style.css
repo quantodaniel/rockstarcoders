@@ -1,0 +1,14 @@
+.rating-filter {
+  line-height: 0;
+  margin: 0;
+}
+
+.rating-filter > img {
+  width: 24px;
+  filter: grayscale(100%);
+  cursor: pointer;
+}
+
+.rating-filter > img.active {
+  filter: grayscale(0%);
+}

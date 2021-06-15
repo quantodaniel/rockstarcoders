@@ -1,0 +1,9 @@
+.rating-stars > img {
+  width: 18px;
+  height: 18px;
+  filter: grayscale(100%);
+}
+
+.rating-stars > img.active {
+  filter: grayscale(0%);
+}
