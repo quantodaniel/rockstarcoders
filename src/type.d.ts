@@ -33,6 +33,17 @@ interface IApiConfig {
 
 type ApiMoviesParams = string | (() => string | null);
 
+type ApiMoviesResponse = [IMovieData[], any, boolean];
+
+type MovieDetailParams = { id: string };
+
+type MovieDetailState = { state: IMovieData };
+
 interface IMovieDataProps {
   movie: IMovieData;
+}
+
+interface ISearchResultsHeader {
+  isLoading: boolean;
+  isEmpty: boolean;
 }

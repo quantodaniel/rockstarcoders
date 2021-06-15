@@ -1,18 +1,29 @@
+import { Link } from "react-router-dom";
+import * as H from "history";
+
 import { usePosterImage } from "../../api";
 import Rating from "../Rating";
 import "./Card.style.css";
 
 const Card: React.FC<IMovieDataProps> = ({ movie }) => {
-  const posterPath = usePosterImage(movie.poster_path, "w92");
+  const posterImage = usePosterImage(movie.poster_path, "w92");
 
-  if (posterPath === null) {
+  const navigate = (location: H.Location<unknown>) => {
+    return { ...location, pathname: `/movie/${movie.id}`, state: movie };
+  };
+
+  if (posterImage === null) {
     return null;
   }
 
   return (
-    <div className="col-2 mb-4">
+    <Link className="col-2 mb-4" to={navigate}>
       <div className="card bg-dark text-white transform-backdrop p-0">
-        <img src={posterPath} className="card-img" alt={movie.original_title} />
+        <img
+          src={posterImage}
+          className="card-img"
+          alt={movie.original_title}
+        />
         <div className="card-img-overlay d-flex">
           <div className="align-self-end bg-white text-dark p-2">
             <Rating voteAverage={movie.vote_average} />
@@ -20,7 +31,8 @@ const Card: React.FC<IMovieDataProps> = ({ movie }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
+
 export default Card;

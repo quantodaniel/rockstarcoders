@@ -11,25 +11,25 @@ export const useConfig = (): IApiConfig | undefined => {
   return data;
 };
 
-const useGetMovies = (path: ApiMoviesParams): [IMovieData[], any] => {
-  const { data, error } = useSWR<IApiResponse>(path);
+const useGetMovies = (path: ApiMoviesParams): ApiMoviesResponse => {
+  const { data, error, isValidating } = useSWR<IApiResponse>(path);
 
   const movies = useMemo(() => {
     return data?.results || [];
   }, [data]);
 
-  return [movies, error];
+  return [movies, error, isValidating];
 };
 
-export const usePopularMovies = (): [IMovieData[], any] => {
+export const usePopularMovies = (): ApiMoviesResponse => {
   return useGetMovies(getApiEndpoint("discover/movie"));
 };
 
 const ratings = [0, 2, 4, 6, 8];
-export const useSearchMovies = (query: string): [IMovieData[], any] => {
+export const useSearchMovies = (query: string): ApiMoviesResponse => {
   const params = useQueryParams();
 
-  const [movies, error] = useGetMovies(() =>
+  const [movies, error, isLoading] = useGetMovies(() =>
     query ? getApiEndpoint("search/movie", `&query=${query}`) : null
   );
 
@@ -43,7 +43,7 @@ export const useSearchMovies = (query: string): [IMovieData[], any] => {
     return movies;
   }, [movies, params]);
 
-  return [filteredMovies, error];
+  return [filteredMovies, error, isLoading];
 };
 
 export const useImageUrl = (

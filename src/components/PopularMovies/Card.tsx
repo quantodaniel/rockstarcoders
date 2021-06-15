@@ -1,15 +1,22 @@
+import { Link } from "react-router-dom";
+import * as H from "history";
+
 import { useBackdropImage } from "../../api";
 import Rating from "../Rating";
 import "./Card.style.css";
 
 const Card: React.FC<IMovieDataProps> = ({ movie }) => {
-  const backdropPath = useBackdropImage(movie.backdrop_path, "w300");
+  const backdropImage = useBackdropImage(movie.backdrop_path, "w300");
+
+  const navigate = (location: H.Location<unknown>) => {
+    return { ...location, pathname: `/movie/${movie.id}`, state: movie };
+  };
 
   return (
-    <div className="col-4 mb-4">
+    <Link className="col-4 mb-4" to={navigate}>
       <div className="card bg-dark text-white transform-backdrop">
         <img
-          src={backdropPath}
+          src={backdropImage}
           className="card-img"
           alt={movie.original_title}
         />
@@ -20,7 +27,7 @@ const Card: React.FC<IMovieDataProps> = ({ movie }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 export default Card;
